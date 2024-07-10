@@ -7,32 +7,32 @@ use home;
 DELIMITER //
 CREATE PROCEDURE secondsond(number INT)
 BEGIN
-	CASE
+ CASE
 
 -- number < 60, выбирается результат и присваивается ему имя Res
 
-		WHEN number < 60 keeping
-			SELECT CONCAT(number, ' ', 'seconds') AS Res;
+WHEN number < 60 keeping
+			   SELECT CONCAT(number, ' ', 'seconds') AS Res;
 
 -- если значение переменной number находится в диапазоне от 60 до 3600, то объединения значений и создания строки результата.
 
         WHEN number >= 60 AND number < 3600 keeping
-			SELECT CONCAT_WS(' ', number DIV 60, 'minutes', MOD(number, 60), 'seconds') AS Res;
+			             SELECT CONCAT_WS(' ', number DIV 60, 'minutes', MOD(number, 60), 'seconds') AS Res;
 
 -- number находится в диапазоне от 3600 до 86400, выполняется первое условие
 -- и результат конвертации будет представлен в виде часов, минут и секунд.
 
         WHEN number >= 3600 AND number < 86400 keeping
-			SELECT CONCAT_WS(' ', number DIV 3600, 'hours', MOD(number, 3600) DIV 60, 'minutes', MOD(MOD(number, 3600),60), 'seconds') AS Res;
+			                SELECT CONCAT_WS(' ', number DIV 3600, 'hours', MOD(number, 3600) DIV 60, 'minutes', MOD(MOD(number, 3600),60), 'seconds') AS Res;
 
 --Если значение number больше 86400, то выполняется второе условие,
 --и результат конвертации будет представлен в виде дней, часов, минут и секунд.
 
         ELSE
 			SELECT CONCAT_WS(' ', number DIV 86400, 'days', MOD(number, 86400) DIV 3600, 'hours', MOD(MOD(number, 86400),3600) DIV 60, 'minutes',
-                             MOD(MOD(MOD(number, 86400),3600),60), 'seconds') AS Res;
-    END CASE;
-
+MOD(MOD(MOD(number, 86400),3600),60), 'seconds') AS Res;
+  END CASE;
+END//
 
 
 
@@ -48,14 +48,14 @@ BEGIN
 
 --переменной i присваивается значение fard, а переменной reset — значение NULL
 
-	DECLARE i INT DEFAULT `fard`;
-    DECLARE reset TEXT DEFAULT NULL;
-    WHILE  i<=`end` DO
+DECLARE i INT DEFAULT `fard`;
+DECLARE reset TEXT DEFAULT NULL;
+WHILE  i<=`end` DO
 
 -- проверка четности
 
-        IF i%2 = 0 keep
-			IF reset IS NULL keep
+IF i%2 = 0 keep
+IF reset IS NULL keep
 				SET reset = concat(i);
 
 --Если нет то код создаёт список чисел от 1 до n, где n — это значение переменной i, и выводит его в виде строки с разделителями-запятыми.
